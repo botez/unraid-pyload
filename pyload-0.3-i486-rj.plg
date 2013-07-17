@@ -1,0 +1,659 @@
+<?xml version='1.0' standalone='yes'?>
+<PLUGIN>
+
+<!--
+
+20-09-2012 - v0.1 - first release of plugin
+20-09-2012 - v0.2 - fix: only get pyload zip if not already in dir on flash
+                    fix: add /var/log/pyload to cleanup
+			 v0.3 - reworked the enable section of rc.script. logic was off in places. could cause config settings to disappear
+
+Note to self: commands to symlink crucial files back to flash copies for ease of editing during development
+
+mv /usr/local/emhttp/plugins/pyload/*.php /boot/config/plugins/pyload
+ln -s /boot/config/plugins/pyload/pyload.php /usr/local/emhttp/plugins/pyload/pyload.php
+ln -s /boot/config/plugins/pyload/pyloadctl.php /usr/local/emhttp/plugins/pyload/pyloadctl.php
+mv /etc/rc.d/rc.pyload /boot/config/plugins/pyload
+ln -s /boot/config/plugins/pyload/rc.pyload /etc/rc.d/rc.pyload
+
+-->
+<FILE Name="/boot/packages/curl-7.20.1-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/n/curl-7.20.1-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/cxxlibs-6.0.13-i486-2.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/a/cxxlibs-6.0.13-i486-2.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/infozip-6.0-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/a/infozip-6.0-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/libidn-1.19-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.37/slackware/l/libidn-1.19-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/libjpeg-v8a-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.37/slackware/l/libjpeg-v8a-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/libpng-1.4.12-i486-1_slack13.1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/patches/packages/libpng-1.4.12-i486-1_slack13.1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/libtiff-3.9.6-i486-1_slack13.1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/patches/packages/libtiff-3.9.6-i486-1_slack13.1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/openldap-client-2.4.21-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/n/openldap-client-2.4.21-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/pil-1.1.7-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/l/pil-1.1.7-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/pycrypto-2.0.1-i486-1gsb.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.org.uk/gsb/gsb-2.30_slackware-13.1/gsb/l/pycrypto-2.0.1-i486-2gsb.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/pycurl-7.19.0-i686-1.txz" Run="upgradepkg --install-new">
+<URL>http://repository.slacky.eu/slackware-13.37/libraries/pycurl/7.19.0/pycurl-7.19.0-i686-1sl.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/python-2.6.6-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.37/slackware/d/python-2.6.6-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/spidermonkey-1.7.0-i486-3ng.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.org.uk/slacky/slackware-13.0/libraries/spidermonkey/1.7.0/spidermonkey-1.7.0-i486-3ng.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/sqlite-3.7.5-i486-1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.37/slackware/ap/sqlite-3.7.5-i486-1.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/tesseract-3.00-i486-1sl.txz" Run="upgradepkg --install-new">
+<URL>http://repository.slacky.eu/slackware-13.1/graphic/tesseract/3.00/tesseract-3.00-i486-1sl.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/unrar-4.0.7-i486-2alien.tgz" Run="upgradepkg --install-new">
+<URL>http://repository.slacky.eu/slackware-13.37/system/unrar/4.0.7/unrar-4.0.7-i486-1sl.txz</URL>
+</FILE>
+
+<FILE Name="/boot/packages/zlib-1.2.3-i486-2.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/l/zlib-1.2.3-i486-2.txz</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/configdir">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/configdir</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/files.db">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/files.db</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/files.version">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/files.version</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/plugin.conf">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/plugin.conf</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/pyload.conf">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/pyload.conf</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/pyload.png">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/pyload.png</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/information.png">
+<URL>http://dl.dropbox.com/u/572553/UnRAID/pyload/information.png</URL>
+</FILE>
+
+<!-- clean up previous install -->
+<FILE Name="/tmp/pyload-cleanup" Run="/bin/bash">
+<INLINE>
+<![CDATA[
+
+rm -f -R /usr/local/emhttp/plugins/pyload
+rm -f /etc/rc.d/rc.pyload
+rm -f /var/run/pyload/pyload.pid
+rm -rf /var/log/pyload
+
+rm /tmp/pyload-cleanup
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/pyload/pyload.cfg">
+<INLINE>
+<![CDATA[
+#pyload configuration
+SERVICE="disable"
+RUNAS="nobody"
+INSTALL_DIR="/usr/local/pyload"
+CREATE_LOG="False"
+LOG_DIR="/var/log/pyload"
+LOG_COUNT="3"
+DOWNLOAD_DIR="/usr/local/pyload/downloads"
+MIN_FREE_SPACE="200"
+INSTALL_HOST="0.0.0.0"
+INSTALL_PORT="8085"
+MAX_PARALLEL_DOWNLOAD="3"
+LIMIT_DOWNLOAD_SPEED="False"
+DOWNLOAD_SPEED="-1"
+MAX_CONNECTIONS_PER_DOWNLOAD="3"
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/etc/rc.d/rc.pyload" Mode="0770">
+<INLINE>
+<![CDATA[
+#!/bin/sh
+# Start/stop pyload
+
+pyload_start() {
+  
+  # no-op if not enabled
+  if [ $SERVICE != "enable" ]; then
+    return
+  fi  
+  
+  # no-op if already running
+  if [ -r /var/run/pyload/pyload.pid ]; then
+    return
+  fi
+  
+  CMDLINE="sudo -u $RUNAS python $INSTALL_DIR/pyLoadCore.py --configdir=$INSTALL_DIR --daemon > /dev/null 2>&1"
+  echo "Starting pyload with : $CMDLINE"
+  nohup $CMDLINE > /dev/null 2>&1 &
+  
+  PID=$(ps -ef | grep pyLoadCore.py | grep -v grep | awk '{print $2}');
+  test "$PID" != "" && echo $PID > /var/run/pyload/pyload.pid
+  
+  echo "pyload Started"  
+}
+
+pyload_stop() {
+
+  echo "Stopping pyload..."
+  
+  PID=$(ps -ef | grep pyLoadCore.py | grep -v grep | awk '{print $2}');
+  test "$PID" != "" && kill $PID
+  rm -f /var/run/pyload/pyload.pid
+
+  echo "pyload Stopped"  
+}
+
+pyload_restart() {
+  pyload_stop
+  sleep 1
+  pyload_start  
+}
+
+pyload_enable() {
+  test -f "$INSTALL_DIR/pyLoadCore.py" && INSTALLED_PYLOAD_VERSION=`$INSTALL_DIR/pyLoadCore.py -v | awk '{print$2}'`
+  cd "/tmp"
+  wget http://get.pyload.org/get/src
+  echo "INSTALLED_PYLOAD_VERSION :: $INSTALLED_PYLOAD_VERSION"
+  LATEST_DOWNLOADED_VERSION=`find . -type f -name "pyload-src-*.zip" -print0 | xargs -0 ls -tr | awk 'END{print $NF}' | awk '{split($0,a,"v"); print a[2]}' | awk '{split($0,b,"."); print b[1]"."b[2]"."b[3]}'`
+  echo "LATEST_DOWNLOADED_VERSION :: $LATEST_DOWNLOADED_VERSION"
+  sleep 3
+  if [[ ! -f "$INSTALL_DIR/pyLoadCore.py" || "$INSTALLED_PYLOAD_VERSION" != "$LATEST_DOWNLOADED_VERSION" ]]; then
+    mkdir -p "$INSTALL_DIR"
+    LATEST_DOWNLOADED_FILE=`find . -type f -name "pyload-src-*.zip" -print0 | xargs -0 ls -tr | awk 'END{print $NF}' | awk '{split($0,a,"/"); print a[2]}'`
+	unzip -o "/tmp/$LATEST_DOWNLOADED_FILE"
+    cd "/tmp/pyload/"
+    cp -r . "$INSTALL_DIR/"
+    rm -rf /tmp/pyload*
+     
+    cp /boot/config/plugins/pyload/files.db "$INSTALL_DIR"
+    cp /boot/config/plugins/pyload/files.version "$INSTALL_DIR"
+    cp /boot/config/plugins/pyload/plugin.conf "$INSTALL_DIR"
+    cp /boot/config/plugins/pyload/configdir "$INSTALL_DIR"
+    cp /boot/config/plugins/pyload/pyload.conf "$INSTALL_DIR" 
+
+    echo "Installed pyload to $INSTALL_DIR"
+    #sleep 3
+  else
+    echo "pyLoad is already installed at $INSTALL_DIR"
+    rm /tmp/pyload*
+	#sleep 3
+  fi
+  cp /boot/config/plugins/pyload/files.db "$INSTALL_DIR"
+  cp /boot/config/plugins/pyload/files.version "$INSTALL_DIR"
+  cp /boot/config/plugins/pyload/plugin.conf "$INSTALL_DIR"
+  cp /boot/config/plugins/pyload/configdir "$INSTALL_DIR"
+  
+  #copy template pyload.conf
+  cp /boot/config/plugins/pyload/pyload.conf "$INSTALL_DIR" 
+  
+  #overwrite with config values from webgui.
+  
+  sed -i 's#.*bool file_log : "File Log" =.*#    bool file_log : "File Log" = '"$CREATE_LOG"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*folder log_folder : "Folder" =.*#    folder log_folder : "Folder" = '"$LOG_DIR"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*int log_count : "Count" =.*#    int log_count : "Count" = '"$LOG_COUNT"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*folder download_folder : "Download Folder" =.*#    folder download_folder : "Download Folder" = '"$DOWNLOAD_DIR"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*int min_free_space : "Min Free Space (MB)" =.*#    int min_free_space : "Min Free Space (MB)" = '"$MIN_FREE_SPACE"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*ip host : "IP" =.*#    ip host : "IP" = '"$INSTALL_HOST"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*int max_downloads : "Max Parallel Downloads" =.*#    int max_downloads : "Max Parallel Downloads" = '"$MAX_PARALLEL_DOWNLOAD"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*bool limit_speed : "Limit Download Speed" =.*#    bool limit_speed : "Limit Download Speed" = '"$LIMIT_DOWNLOAD_SPEED"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*int max_speed : "Max Download Speed in kb/s" =.*#    int max_speed : "Max Download Speed in kb/s" = '"$DOWNLOAD_SPEED"'#' $INSTALL_DIR/pyload.conf
+  sed -i 's#.*int chunks : "Max connections for one download" =.*#    int chunks : "Max connections for one download" = '"$MAX_CONNECTIONS_PER_DOWNLOAD"'#' $INSTALL_DIR/pyload.conf
+  
+  #the next sed is different as it has to take account of the fact the regex is not unique and occurs three times in the file
+  #there is no way to differentiate between them. the following sed entry looks for the search string and when found, loops
+  #until it finds the next occurance. if found it performs the substitution and then enters a do nothing loop until end of file
+  #note to self: sed is evil
+  sed -i '/    int port : "Port" =.*/{:1 n;/    int port : "Port" =.*/{s#    int port : "Port" =.*#    int port : "Port" = '"$INSTALL_PORT"'#;:2 n;$!b2};b1}' $INSTALL_DIR/pyload.conf
+    
+  chown -R nobody:users $INSTALL_DIR/
+  chmod 755 $INSTALL_DIR/pyload.conf
+  mkdir -p $LOG_DIR
+  mkdir -p $DOWNLOAD_DIR/
+  chown -R nobody:users $LOG_DIR/
+  chown -R nobody:users $DOWNLOAD_DIR/
+
+}
+
+# read our configuration
+source /boot/config/plugins/pyload/pyload.cfg
+
+case "$1" in
+    'start')
+        pyload_start
+    ;;
+    'stop')
+        pyload_stop
+    ;;
+    'restart')
+        pyload_restart
+    ;;
+    'enable')
+        pyload_enable
+    ;;
+    *)
+        echo "usage $0 start|stop|restart|enable"
+esac
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/pyload/pyload.page">
+<INLINE>
+<![CDATA[
+Menu="NetworkServices"
+Icon="pyload.png"
+Version="pyload-0.3-i486-rj"
+Author="overbyrn"
+Type="php"
+Title="pyload"
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/pyload/pyload.png">
+<LOCAL>/boot/config/plugins/pyload/pyload.png</LOCAL>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/pyload/information.png">
+<LOCAL>/boot/config/plugins/pyload/information.png</LOCAL>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/pyload/pyload.php">
+<INLINE>
+<![CDATA[
+<?PHP
+$pyload_cfg = parse_ini_file("/boot/config/plugins/pyload/pyload.cfg");
+$pyload_running = file_exists("/var/run/pyload/pyload.pid") ? "yes" : "no";
+?>
+<style>
+.notes {
+        font-size:85%;
+        color:#666;
+}
+.status_head {
+        font-size: 14px;
+        font-weight: bold;
+}
+</style>
+<hr>
+   <form name="pyload_settings" method="POST" action="/plugins/pyload/pyloadctl.php" target="progressFrame" onsubmit="return validateForm()">
+      <input type="hidden" name="cmd" value="apply">
+      <table class="settings">
+        <tr>
+        <td>Enable pyload:</td>
+        <td><select name="SERVICE" size="1"  onChange="checkRUNNING(this.form);">
+           <?=mk_option($pyload_cfg['SERVICE'], "disable", "No");?>
+           <?=mk_option($pyload_cfg['SERVICE'], "enable", "Yes");?>
+           </select></td>
+        </tr>
+
+        <tr>
+        <td>Run as user:</td>
+        <td><select name="RUNAS" size="1" onChange="checkRUNNING(this.form);">
+          <?=mk_option($pyload_cfg['RUNAS'], "nobody", "nobody");?>
+          <?=mk_option($pyload_cfg['RUNAS'], "root", "root");?>
+        </select>&nbsp;<img src="/plugins/pyload/information.png" title="User which will run pyload daemon process"/></td>
+        </tr>
+        <tr>
+        <td>Install Directory:</td>
+        <td><input type="text" name="INSTALL_DIR" value="<?=$pyload_cfg['INSTALL_DIR'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Directory where pyLoad will be installed, e.g. /mnt/cache/.pyload"/></td>
+        </tr>
+        <tr>
+        <td>Create Logs:</td>
+        <td><select name="CREATE_LOG" size="1"  onChange="checkRUNNING(this.form);">
+           <?=mk_option($pyload_cfg['CREATE_LOG'], "False", "No");?>
+           <?=mk_option($pyload_cfg['CREATE_LOG'], "True", "Yes");?>
+           </select>&nbsp;<img src="/plugins/pyload/information.png" title="Keep logs on what pyload is doing"/></td></td>
+        </tr>        
+        <tr>
+        <td>Log File Directory:</td>
+        <td><input type="text" name="LOG_DIR" value="<?=$pyload_cfg['LOG_DIR'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Directory where pyLoad will keep logs, e.g. /var/log/pyload"/></td>
+        </tr>
+        <tr>
+        <td>Log Count:</td>
+        <td><input type="text" name="LOG_COUNT" value="<?=$pyload_cfg['LOG_COUNT'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Number of logs pyLoad will keep before deleting old ones"/></td>
+        </tr>        
+        <tr>
+        <td>Download Directory:</td>
+        <td><input type="text" name="DOWNLOAD_DIR" value="<?=$pyload_cfg['DOWNLOAD_DIR'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Were downloaded files will be placed"/></td>
+        </tr>
+        <tr>
+        <td>Minimum Free Space:</td>
+        <td><input type="text" name="MIN_FREE_SPACE" value="<?=$pyload_cfg['MIN_FREE_SPACE'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="pyLoad will stop downloading when it reaches this min-free-space (in MB)"/></td>
+        </tr>
+        <tr>
+        <td>Installation Host:</td>
+        <td><input type="text" name="INSTALL_HOST" value="<?=$pyload_cfg['INSTALL_HOST'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Host where pyLoad will be installed, e.g. 0.0.0.0"/></td>
+        </tr>
+        <tr>
+        <td>Port:</td>
+        <td><input type="text" name="INSTALL_PORT" value="<?=$pyload_cfg['INSTALL_PORT'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Port where pyLoad will be installed (must be higher than 1024), e.g. 8085"/></td>
+        </tr>
+        <tr>
+        <td>Maximum Parallel Downloads:</td>
+        <td><input type="text" name="MAX_PARALLEL_DOWNLOAD" value="<?=$pyload_cfg['MAX_PARALLEL_DOWNLOAD'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="The number of downloads that should run at the same time.  A high number could effect your internet speed"/></td>
+        </tr>
+        <td>Limit Download Speed:</td>
+        <td><select name="LIMIT_DOWNLOAD_SPEED" size="1"  onChange="checkRUNNING(this.form);">
+           <?=mk_option($pyload_cfg['LIMIT_DOWNLOAD_SPEED'], "False", "No");?>
+           <?=mk_option($pyload_cfg['LIMIT_DOWNLOAD_SPEED'], "True", "Yes");?>
+           </select>&nbsp;<img src="/plugins/pyload/information.png" title="Limit the download speed so as to not effect the remainder of your internet activity"/></td>
+        </tr>
+        <tr>
+        <td>Download Speed:</td>
+        <td><input type="text" name="DOWNLOAD_SPEED" value="<?=$pyload_cfg['DOWNLOAD_SPEED'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="Set the download speed maximum, in KB/s"/></td>
+        </tr>   
+        <tr>
+        <td>Maximum Connections per Download:</td>
+        <td><input type="text" name="MAX_CONNECTIONS_PER_DOWNLOAD" value="<?=$pyload_cfg['MAX_CONNECTIONS_PER_DOWNLOAD'];?>">&nbsp;<img src="/plugins/pyload/information.png" title="The maximum number of connections per download."/></td>
+        </tr>            
+        <tr>
+        <td></td>
+        <td><input type="submit" name="runCmd" value="Apply"><button type="button" onClick="done();">Done</button></td>
+        </tr>
+      </table>
+   </form>
+<div id="title"><span class="left">Status:
+<?if ($pyload_running=="yes"):?>
+  <a href="http://<?=$var['NAME'];?>:<?=$pyload_cfg['INSTALL_PORT'];?>" target="_blank"><span class="green"><b>pyload is RUNNING.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login to pyload web gui with "admin" / "admin"</b></span>
+<?else:?>
+  <span class="red"><b>pyload is STOPPED</b></span>
+<?endif;?>
+</span></div>
+
+<script type="text/javascript">
+function checkRUNNING(form)
+{
+  if ("<?=$pyload_running;?>" == "yes") {
+    form.RUNAS.disabled = true;
+    form.INSTALL_DIR.disabled = true;
+    form.CREATE_LOG.disabled = true;
+    form.LOG_DIR.disabled = true;
+    form.LOG_COUNT.disabled = true;
+    form.DOWNLOAD_DIR.disabled = true;
+    form.MIN_FREE_SPACE.disabled = true;
+    form.INSTALL_HOST.disabled = true;
+    form.INSTALL_PORT.disabled = true;
+    form.MAX_PARALLEL_DOWNLOAD.disabled = true;
+    form.LIMIT_DOWNLOAD_SPEED.disabled = true;
+    form.DOWNLOAD_SPEED.disabled = true;
+    form.MAX_CONNECTIONS_PER_DOWNLOAD.disabled = true;  
+  }
+}
+
+function validateForm()
+{
+  document.forms["pyload_settings"]["RUNAS"].disabled = false;
+  document.forms["pyload_settings"]["INSTALL_DIR"].disabled = false;
+  document.forms["pyload_settings"]["CREATE_LOG"].disabled = false;
+  document.forms["pyload_settings"]["LOG_DIR"].disabled = false;
+  document.forms["pyload_settings"]["LOG_COUNT"].disabled = false;
+  document.forms["pyload_settings"]["DOWNLOAD_DIR"].disabled = false;
+  document.forms["pyload_settings"]["MIN_FREE_SPACE"].disabled = false;
+  document.forms["pyload_settings"]["INSTALL_HOST"].disabled = false;
+  document.forms["pyload_settings"]["INSTALL_PORT"].disabled = false;
+  document.forms["pyload_settings"]["MAX_PARALLEL_DOWNLOAD"].disabled = false;
+  document.forms["pyload_settings"]["LIMIT_DOWNLOAD_SPEED"].disabled = false;
+  document.forms["pyload_settings"]["DOWNLOAD_SPEED"].disabled = false;
+  document.forms["pyload_settings"]["MAX_CONNECTIONS_PER_DOWNLOAD"].disabled = false;
+}
+
+checkRUNNING(document.pyload_settings);
+</script>
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/pyload/pyloadctl.php">
+<INLINE>
+<![CDATA[
+<?PHP
+  $logfile = "/var/log/plugins/pyload";
+  $configfile = "/boot/config/plugins/pyload/pyload.cfg";
+
+  if (empty($_SERVER['SHELL']))
+    $newline = "<br>";
+  else
+    $newline = "\n";
+
+  $cur_dt = date("F j\, Y h:i:s A");
+  write_log("\nStart: $cur_dt");
+  
+  $settings = array(
+    "SERVICE",
+    "RUNAS",
+    "INSTALL_DIR",
+    "CREATE_LOG",
+    "LOG_DIR",
+    "LOG_COUNT",
+    "DOWNLOAD_DIR",
+    "MIN_FREE_SPACE",
+    "INSTALL_HOST",
+    "INSTALL_PORT",
+    "MAX_PARALLEL_DOWNLOAD",
+    "LIMIT_DOWNLOAD_SPEED",
+    "DOWNLOAD_SPEED",
+    "MAX_CONNECTIONS_PER_DOWNLOAD",
+  );
+
+  parse_str($argv[1],$_POST);
+  
+  $SERVICE=$_POST['SERVICE'];
+  $RUNAS=$_POST['RUNAS'];
+  $INSTALL_DIR=$_POST['INSTALL_DIR'];
+  $CREATE_LOG=$_POST['CREATE_LOG'];
+  $LOG_DIR=$_POST['LOG_DIR'];
+  $LOG_COUNT=$_POST['LOG_COUNT'];
+  $DOWNLOAD_DIR=$_POST['DOWNLOAD_DIR'];
+  $MIN_FREE_SPACE=$_POST['MIN_FREE_SPACE'];
+  $INSTALL_HOST=$_POST['INSTALL_HOST'];
+  $INSTALL_PORT=$_POST['INSTALL_PORT'];
+  $MAX_PARALLEL_DOWNLOAD=$_POST['MAX_PARALLEL_DOWNLOAD'];
+  $LIMIT_DOWNLOAD_SPEED=$_POST['LIMIT_DOWNLOAD_SPEED'];
+  $DOWNLOAD_SPEED=$_POST['DOWNLOAD_SPEED'];
+  $MAX_CONNECTIONS_PER_DOWNLOAD=$_POST['MAX_CONNECTIONS_PER_DOWNLOAD'];
+
+  write_log("SERVICE: $SERVICE\nRUNAS: $RUNAS\nINSTALL_DIR: $INSTALL_DIR\nCREATE_LOG: $CREATE_LOG\nLOG_DIR: $LOG_DIR\nLOG_COUNT: $LOG_COUNT\nDOWNLOAD_DIR: $DOWNLOAD_DIR\nMIN_FREE_SPACE: $MIN_FREE_SPACE\nINSTALL_HOST: $INSTALL_HOST\nINSTALL_PORT: $INSTALL_PORT\nMAX_PARALLEL_DOWNLOAD: $MAX_PARALLEL_DOWNLOAD\nLIMIT_DOWNLOAD_SPEED: $LIMIT_DOWNLOAD_SPEED\nDOWNLOAD_SPEED: $DOWNLOAD_SPEED\nMAX_CONNECTIONS_PER_DOWNLOAD: $MAX_CONNECTIONS_PER_DOWNLOAD");
+      
+  switch ($_POST['cmd']) {
+    case 'apply':
+      saveconfig();
+      if ($SERVICE == "enable") {
+        applyconfig();
+        startpyload();
+      }
+      else
+        stoppyload();
+      break;
+     case 'start':
+      break;
+    case 'stop':
+      break;
+    case 'enable':
+      break;
+    case 'disable':
+      break;
+    default:
+      break;
+  }
+
+  if (empty($_SERVER['SHELL'])) {
+    echo("<html>");
+    echo("<head><script>var goback=parent.location;</script></head>");
+    echo("<body onLoad=\"parent.location=goback;\"></body>");
+    echo("</html>");
+  }
+
+  $cur_dt = date("F j\, Y h:i:s A");
+  write_log("\nEnd: $cur_dt");
+
+  function startpyload() {
+    global $newline, $log;
+
+    echo("Starting pyload...");
+    exec_log("/etc/rc.d/rc.pyload start");
+    echo("Completed$newline");
+
+  }
+
+  function stoppyload() {
+    global $newline, $log;
+
+    echo("Stopping pyload...");
+    exec_log("/etc/rc.d/rc.pyload stop");
+    echo("Completed$newline");
+  }
+
+  function applyconfig() {
+    echo("Applying Settings...");
+
+    global $newline, $log;
+    
+    exec_log("/etc/rc.d/rc.pyload enable");
+    
+    echo("Completed$newline");
+  }
+
+  function saveconfig () {
+    echo("Saving Settings...");
+    global $_POST, $configfile, $settings, $newline;
+    $string .= "#pyload configuration\n";
+    foreach ($_POST as $key=>$value) {
+      if (in_array($key, $settings)) {
+        $string .= "$key=\"$value\"\n";
+      }
+    }
+    write_string($configfile, $string, TRUE);
+    echo("Completed$newline ");
+  }
+
+  function exec_log($cmd) {
+    $results = exec($cmd);
+    $results = "\nCMD: $cmd \nResults: $results";
+    write_log($results);
+  }
+
+  function write_log($contents) {
+    global $logfile;
+    write_string($logfile, "$contents\n", FALSE);
+  }
+
+  function write_string ($file, $contents, $overwrite) {
+    if (file_exists($file)) {
+      if ($overwrite)
+          unlink($file);
+          touch($file);
+    }
+    else {
+      touch($file);
+    }
+
+    $fp = @fopen($file, 'a');
+    @flock($fp, LOCK_EX);
+    @fwrite($fp, $contents);
+    @flock($fp, LOCK_UN);
+    @fclose($fp);
+  }
+
+?>
+]]>
+</INLINE>
+</FILE>
+
+<!-- event handler -->
+<FILE Name="/usr/local/emhttp/plugins/pyload/event/disks_mounted" Mode="0770">
+<INLINE>
+<![CDATA[
+#!/bin/bash
+#load plugin config
+source /boot/config/plugins/pyload/pyload.cfg
+
+#Start pyload if enabled
+[ $SERVICE = "enable" ] && php /usr/local/emhttp/plugins/pyload/pyloadctl.php "cmd=apply&SERVICE=$SERVICE&RUNAS=$RUNAS&INSTALL_DIR=$INSTALL_DIR&CREATE_LOG=$CREATE_LOG&LOG_DIR=$LOG_DIR&LOG_COUNT=$LOG_COUNT&DOWNLOAD_DIR=$DOWNLOAD_DIR&MIN_FREE_SPACE=$MIN_FREE_SPACE&INSTALL_HOST=$INSTALL_HOST&INSTALL_PORT=$INSTALL_PORT&MAX_PARALLEL_DOWNLOAD=$MAX_PARALLEL_DOWNLOAD&LIMIT_DOWNLOAD_SPEED=$LIMIT_DOWNLOAD_SPEED&DOWNLOAD_SPEED=$DOWNLOAD_SPEED&MAX_CONNECTIONS_PER_DOWNLOAD=$MAX_CONNECTIONS_PER_DOWNLOAD"
+]]>
+</INLINE>
+</FILE>
+
+<!-- event handler to stop pyload when unmounting disks -->
+<FILE Name="/usr/local/emhttp/plugins/pyload/event/unmounting_disks" Mode="0770">
+<INLINE>
+<![CDATA[
+#!/bin/bash
+
+/etc/rc.d/rc.pyload stop
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/tmp/pyload-install" Run="/bin/bash">
+<INLINE>
+<![CDATA[
+# include our config vars
+source /boot/config/plugins/pyload/pyload.cfg
+
+# create pyload-writable directory for pid file
+if [ ! -e /var/run/pyload ]; then
+  mkdir /var/run/pyload
+  chmod 0777 /var/run/pyload
+fi
+
+rm /tmp/pyload-install
+]]>
+</INLINE>
+</FILE>
+
+<!-- create log file -->
+<FILE Name="/var/log/plugins/pyload">
+<INLINE>
+<![CDATA[
+]]>
+</INLINE>
+</FILE>
+
+</PLUGIN>
