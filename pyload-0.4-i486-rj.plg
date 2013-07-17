@@ -6,7 +6,8 @@
 20-09-2012 - v0.1 - first release of plugin
 20-09-2012 - v0.2 - fix: only get pyload zip if not already in dir on flash
                     fix: add /var/log/pyload to cleanup
-			 v0.3 - reworked the enable section of rc.script. logic was off in places. could cause config settings to disappear
+	     v0.3 - reworked the enable section of rc.script. logic was off in places. could cause config settings to disappear
+16-07-2013 - v0.4 - Updated links to packages/files
 
 Note to self: commands to symlink crucial files back to flash copies for ease of editing during development
 
