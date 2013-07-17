@@ -87,31 +87,31 @@ ln -s /boot/config/plugins/pyload/rc.pyload /etc/rc.d/rc.pyload
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/configdir">
-<URL>https://raw.github.com/botez/unraid-pyload/master/configdir</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/configdir</URL>
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/files.db">
-<URL>https://raw.github.com/botez/unraid-pyload/master/files.db</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/files.db</URL>
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/files.version">
-<URL>https://raw.github.com/botez/unraid-pyload/master/files.version</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/files.version</URL>
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/plugin.conf">
-<URL>https://raw.github.com/botez/unraid-pyload/master/plugin.conf</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/plugin.conf</URL>
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/pyload.conf">
-<URL>https://raw.github.com/botez/unraid-pyload/master/pyload.conf</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/pyload.conf</URL>
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/pyload.png">
-<URL>https://raw.github.com/botez/unraid-pyload/master/pyload.png</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/pyload.png</URL>
 </FILE>
 
 <FILE Name="/boot/config/plugins/pyload/information.png">
-<URL>https://raw.github.com/botez/unraid-pyload/master/information.png</URL>
+<URL>--no-check-certificate https://raw.github.com/botez/unraid-pyload/master/information.png</URL>
 </FILE>
 
 <!-- clean up previous install -->
