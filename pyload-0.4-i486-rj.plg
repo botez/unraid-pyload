@@ -18,8 +18,8 @@ mv /etc/rc.d/rc.pyload /boot/config/plugins/pyload
 ln -s /boot/config/plugins/pyload/rc.pyload /etc/rc.d/rc.pyload
 
 -->
-<FILE Name="/boot/packages/curl-7.20.1-i486-1.txz" Run="upgradepkg --install-new">
-<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/slackware/n/curl-7.20.1-i486-1.txz</URL>
+<FILE Name="/boot/packages/curl-7.29.0-i486-3_slack14.0.txz" Run="upgradepkg --install-new">
+<URL>http://search.slackware.eu/cgi-bin/package.cgi/view/slackware-14.0/patches/packages/curl-7.29.0-i486-3_slack14.0.txz</URL>
 </FILE>
 
 <FILE Name="/boot/packages/cxxlibs-6.0.13-i486-2.txz" Run="upgradepkg --install-new">
