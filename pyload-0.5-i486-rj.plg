@@ -42,8 +42,8 @@ ln -s /boot/config/plugins/pyload/rc.pyload /etc/rc.d/rc.pyload
 <URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/patches/packages/libpng-1.4.12-i486-1_slack13.1.txz</URL>
 </FILE>
 
-<FILE Name="/boot/packages/libtiff-3.9.6-i486-1_slack13.1.txz" Run="upgradepkg --install-new">
-<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/patches/packages/libtiff-3.9.6-i486-1_slack13.1.txz</URL>
+<FILE Name="/boot/packages/libtiff-3.9.7-i486-1_slack13.1.txz" Run="upgradepkg --install-new">
+<URL>http://slackware.cs.utah.edu/pub/slackware/slackware-13.1/patches/packages/libtiff-3.9.7-i486-1_slack13.1.txz</URL>
 </FILE>
 
 <FILE Name="/boot/packages/openldap-client-2.4.21-i486-1.txz" Run="upgradepkg --install-new">
