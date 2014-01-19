@@ -78,8 +78,8 @@ ln -s /boot/config/plugins/pyload/rc.pyload /etc/rc.d/rc.pyload
 <URL>http://repository.slacky.eu/slackware-13.1/graphic/tesseract/3.00/tesseract-3.00-i486-1sl.txz</URL>
 </FILE>
 
-<FILE Name="/boot/packages/unrar-4.2.4-i486-1sl.txz" Run="upgradepkg --install-new">
-<URL>http://repository.slacky.eu/slackware-14.0/system/unrar/4.2.4/unrar-4.2.4-i486-1sl.txz</URL>
+<FILE Name="/boot/packages/unrar-4.2.4-i486-1alien.tgz" Run="upgradepkg --install-new">
+<URL>http://www.slackware.com/~alien/slackbuilds/unrar/pkg/13.37/unrar-4.2.4-i486-1alien.tgz</URL>
 </FILE>
 
 <FILE Name="/boot/packages/zlib-1.2.3-i486-2.txz" Run="upgradepkg --install-new">
